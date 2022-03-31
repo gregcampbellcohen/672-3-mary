@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Web Map Template Responsive</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" rel="stylesheet" />
+    <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700&display=swap" rel="stylesheet">
+    <style>
+        /* 
+			UKy Colors: 
+            #c7c9c8 light gray 
+            #63666a dark gray
+            #15397f dark blue
+            #009bda light blue
+            #0033a0 official blue
+        */
+
+        /* 
+        When sizing a box, consider the content, padding, and border dimensions,
+        */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* 
+        This syntax selects any class that includes 'col-' in the name
+        and pads all content with 15px in all dimensions.
+        */
+        [class*="col-"] {
+            float: left;
+            padding: 20px 20px 0 20px;
+        }
+
+        /* 
+        Clear all floating columns when finishing a row.
+        */
+        .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Lato", sans-serif;
+            background: #f5f5f5;
+            color: #313131;
+            font-size: 100%;
+        }
+
+        header,
+        aside {
+            background-color: #6b6b6b;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        section,
+        aside,
+        footer {
+            padding: 15px;
+            /* font-size: 14px; */
+        }
+
+        header {
+            padding: 20px;
+        }
+
+        aside,
+        .menu li {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        footer {
+            background-color: #d6d6d6;
+            color: #5f5f5f;
+            margin: 10px 0 0 0;
+        }
+
+        h1,
+        h3 {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            font-weight: 400;
+            margin: 6px;
+        }
+
+        h2 {
+            font-style: italic;
+            font-size: 2em;
+            font-weight: 900;
+        }
+
+
+        h3 {
+            font-size: 2.2em;
+            /* line-height: 1.4em; */
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.4em;
+        }
+
+
+        a {
+            color: #313131;
+        }
+
+        a:hover {
+            color: #009bda;
+            text-decoration: underline;
+        }
+
+        footer ul,
+        footer h3 {
+            margin: 4px 0 10px 0;
+            list-style-type: square;
+        }
+
+        footer li {
+            padding: 6px 0 0 0;
+            margin-left: -10px;
+        }
+
+        footer p {
+            font-weight: 300;
+            font-size: 0.9em;
+        }
+
+        footer img {
+            float: left;
+        }
+
+        #map {
+            width: 100%;
+            height: 600px;
+        }
+
+        .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #6b6b6b;
+            color: #e2e2e2;
+        }
+
+        .menu a {
+            color: #e2e2e2;
+            text-decoration: none;
+        }
+
+        .menu li:hover {
+            background-color: #009bda;
+            color: #e2e2e2;
+        }
+
+        .img-fill {
+            width: 100%;
+        }
+
+        .img-caption {
+            width: 100%;
+            font-weight: 300;
+            font-size: 0.9em;
+            margin: 5px 0 0 0;
+        }
+
+        /* ******************
+        Column width and map height based on size of screen.
+        Note; tweak min-width and min-height to 'dial in' your desired layouts.
+        * **************** */
+
+        /* 
+        Default column width is 100%: for mobile phones
+        */
+        [class*="col-"] {
+            width: 100%;
+        }
+
+        /* 
+        Screen larger than 800px wide and 600px high: for tablets
+        */
+        @media only screen and (min-width: 800px) and (min-height: 600px) {
+        /* .col-s-0 {width: 0%; padding: 0;} */
+        .col-s-1 {width: 8.33%;}
+        .col-s-2 {width: 16.66%;}
+        .col-s-3 {width: 25%;}
+        .col-s-4 {width: 33.33%;}
+        .col-s-5 {width: 41.66%;}
+        .col-s-6 {width: 50%;}
+        .col-s-7 {width: 58.33%;}
+        .col-s-8 {width: 66.66%;}
+        .col-s-9 {width: 75%;}
+        .col-s-10 {width: 83.33%;}
+        .col-s-11 {width: 91.66%;}
+        .col-s-12 {width: 100%;}
+
+        #map {
+            /* height: 700px; */
+            height: 85vh;
+            }
+        }
+
+        /* 
+        Screen larger than 1025px wide and 800px high: for desktop
+        */
+        @media only screen and (min-width: 1025px) and (min-height: 800px) {
+        /* .col-0 {width: 0%;} */
+        .col-1 {width: 8.33%;}
+        .col-2 {width: 16.66%;}
+        .col-3 {width: 25%;}
+        .col-4 {width: 33.33%;}
+        .col-5 {width: 41.66%;}
+        .col-6 {width: 50%;}
+        .col-7 {width: 58.33%;}
+        .col-8 {width: 66.66%;}
+        .col-9 {width: 75%;}
+        .col-10 {width: 83.33%;}
+        .col-11 {width: 91.66%;}
+        .col-12 {width: 100%;}
+        
+        #map {
+            height: 986px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Lexington, Capital of the Bluegrass</h1>
+    </header>
+
+    <div class="row">
+        <div class="col-2 col-s-3 menu">
+            <ul>
+                <li><a href="https://www.visitlex.com/idea-guide/horse-farm-tours/">Horse farms</a></li>
+                <li><a href="https://www.betterinthebluegrass.com/local-eats">Gastronomic delights</a></li>
+                <li><a href="https://uky-gis.github.io/">University of Kentucky</a></li>
+            </ul>
+        </div>
+
+        <div class="col-7 col-s-9">
+            <div id="map"></div>
+        </div>
+
+        <div class="col-3 col-s-12">
+            <aside>
+                <h2>The environs</h2>
+                <p>What about Lexington makes it unique? Would it be the dozen of world-class equestrian farms, the
+                    myriad
+                    of bourbon distilleries, or the warm and welcoming spirit of its citizens?</p>
+            </aside>
+            <aside>
+                <img src="https://live.staticflickr.com/564/32726801546_89ac8fdcba_h.jpg" class="img-fill"
+                    alt="Fayette County, Kentucky population density &amp; Town Branch of the Elkhorn Creek">
+            </aside>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-s-3"></div>
+
+        <section>
+            <div class="col-4 col-s-12">
+                <h3>Welcome!</h3>
+                <p>Closer to the metal. Bottleneck mice strategic high-level 30,000 ft view cloud strategy accountable talk thinking outside the box, you gotta smoke test your hypothesis so staff engagement. Parallel path beef up, but optics. Re-inventing the wheel move the needle, or put your feelers out, or obviously for what are the expectations. Streamline those options are already baked in with this model, so diversify kpis so drop-dead date, yet that jerk from finance really threw me under the bus, or out of the loop. Target rich environment throughput nor market-facing strategic high-level 30,000 ft view value-added if you could do that, that would be great and build on a culture of contribution and inclusion.</p>
+            </div>
+            <div class="col-3 col-s-12">
+                <p>You gotta smoke test your hypothesis goalposts. Run it up the flagpole, ping the boss and circle back. But what's the real problem we're trying to solve here? baseline the procedure and samepage your department. Can we align on lunch orders make it look like digital beef up, and get all your ducks in a row, so we need to future-proof this. Face time we need to aspirationalise our offerings. Make it a priority we need to future-proof this prethink dogpile that good optics and low engagement pig in a python. Killing it. Low engagement not enough bandwidth, nobody's fault it could have been managed better keep it lean proceduralize.</p>
+            </div>
+        </section>
+
+        <div class="col-3 col-s-12">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 "></div>
+
+        <section>
+            <div class="col-4 col-s-12">
+                <img src="https://live.staticflickr.com/699/23601472312_ab4c2918af_o.jpg" alt="View Downtown"
+                    class="img-fill">
+                <p class="img-caption">Sunrise view of Lexington's skyline</p>
+            </div>
+
+            <div class="col-3 col-s-12">
+                <img src="https://live.staticflickr.com/7480/27241750321_09145ab9ec_o.jpg" alt="Spring Sunset"
+                    class="img-fill">
+                <p class="img-caption">Lexington, downtown, during sunset</p>
+            </div>
+        </section>
+
+        <div class="col-3">
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-2 "></div>
+            <div class="col-4 col-s-6">
+                <h3>Contact me</h3>
+                <ul>
+                    <li>
+                        Find me on GitHub @<a href="#">TastyFreeze</a>
+                    </li>
+                    <li>
+                        Twitter @<a href="#">TastyFreeze</a>
+                    </li>
+                    <li>
+                        Check out student maps @<a href="https://newmapsplus.github.io/projects/">NewMapsPlus</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-4 col-s-6">
+                <div class="row">
+                    <a href="https://newmapsplus.github.io">
+                        <img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png"
+                            alt="University of Kentucky Geography">
+                    </a>
+                    <a href="https://uky-gis.github.io">
+                        <img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png"
+                            alt="University of Kentucky Geography">
+                    </a>
+                </div>
+                <p> <b>New Maps Plus</b> | Department of Geography | University of Kentucky<br>
+                    817 Patterson Office Tower, Lexington KY 40506-0027<br>
+                    <a href="mailto:NewMapsPlus@uky.edu">NewMapsPlus@uky.edu</a></p>
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script>
+        var options = {
+            center: [38.0406, -84.5037],
+            zoom: 12
+        }
+
+        var map = L.map('map', options);
+
+        var basemap_url = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/light_all/{z}/{x}/{y}.png'
+
+        var basemap_attributes = {
+            attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }
+
+        var tiles = L.tileLayer(basemap_url, basemap_attributes).addTo(map);
+
+        var message = 'Lexington is awesome!';
+
+        L.marker(map.getCenter())
+            .bindTooltip(message)
+            .addTo(map)
+            .openTooltip();
+    </script>
+
+</body>
+
+</html>

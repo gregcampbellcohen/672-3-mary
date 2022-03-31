@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset=utf-8 />
+  <title>Lesson 03 Starter Template</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <style>
+    /* CSS style rules go here! */
+  </style>
+</head>
+
+<body>
+
+  <script>
+    /* JavaScript code goes here! */
+    var cities = ["Frankfort", "Louisville", "Lexington"];
+    console.log(cities.length);  // output will be 3
+    var years = [2011, 2012, 2013, 2014, 2015, 2016];
+    var yearsNum = years.length;
+    console.log(yearsNum); // output will be 6
+
+    var cities = ["Frankfort", "Louisville", "Lexington"];
+    var citiesSorted = cities.sort();
+    console.log(citiesSorted); // outputs to ["Frankfort", "Lexington", "Louisville"]
+    console.log(cities); // also outputs to ["Frankfort", "Lexington", "Louisville"]
+
+    var num = 123456.789;
+    var formattedNum = num.toLocaleString();
+    console.log(formattedNum); // "123,456.789"
+
+    var cities = ["Frankfort", "Louisville", "Lexington"];
+    var n = cities.push("Covington");
+    console.log(cities, n); // outputs to ["Frankfort", "Louisville", "Lexington", "Covington"]
+
+    var cities = ["Frankfort", "Louisville", "Lexington"];
+    cities[cities.length] = "Covington";
+    console.log(cities); // outputs to ["Frankfort", "Louisville", "Lexington", "Covington"]
+
+    console.log("before the for loop");
+    for (var i = 0; i < 5; i++) {
+    console.log(i); // outputs numbers from 0 to 4
+    }
+    console.log("after the for loop");
+
+    for (var number = 0; number < 5; number = number + 1) {
+   console.log(number); // outputs numbers from 0 to 4
+    }
+
+    var cities = ["Frankfort", "Louisville", "Lexington"];
+    for (var i = 0; i < cities.length; i++) {
+    console.log(i); // output the current value of i
+    console.log(cities[i]); // use i to access an index of the Array
+    }
+
+    var newArray = []; // define an empty Array
+    for(var i = 0; i < 10; i++) {
+    newArray[i] = i + 1;
+    }
+    console.log(newArray); // output will be [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    for (var i = 0; i < 5; i++) {
+    console.log('outer loop: ' + i);
+    for (var j = 0; j < 5; j++) {
+    console.log('inner loop: '+ j);
+    }
+  }
+    var sum = 0;
+    for (var i = 0; i < 5; i++) {
+    for (var j = 0; j < 5; j++) {
+    sum += j;
+    }
+    sum += i;
+  }
+  console.log(sum);  // output will be 60.
+
+  var cities = ["Frankfort", "Louisville", "Lexington"];
+  var i = 0;
+  while (i < cities.length){  
+    console.log(i);
+    console.log(cities[i]);
+    i++        
+  }
+
+  var cities = ["Frankfort", "Louisville", "Lexington"];
+cities.forEach(function(city, i) {
+    console.log(city, i); // Frankfort 0 , Louisville 1, Lexington 2
+});
+
+var temp = 32;
+if(temp === 32) {
+   console.log('the temperature is freezing');
+}
+
+var temp = 33;
+if(temp === 32) {
+   console.log('the temperature is freezing');
+} else {
+    console.log('the temperature is NOT 32, but still may be freezing');
+}
+
+var temp = 33;
+if(temp <= 32) {
+    console.log('the temperature is freezing');
+} else if(temp > 32) {
+    console.log('the temperature is above freezing');
+} else {
+    console.log('the value of temp must not be a number');
+}
+
+for(var i = 0; i <= 10; i++) {
+    if(i === 5) {
+        break;
+    }
+    console.log(i); // out will be 0 1 2 3 4
+}
+
+var cities = ["Frankfort", "Louisville", "Lexington"];
+var testCity = "Bowling Green";
+for (var i = 0; i < cities.length; i++) {
+    if(cities[i] == testCity) {
+        console.log(`${testCity} is found in the city Array at index ${i}!`);
+    } else {
+        console.log(`${testCity} was not found within the Array at index ${i}!`);
+    }
+}
+
+var years = [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015];
+for(var i = 0; i < years.length; i++) {
+  if(years[i] == 2012) {
+    break;
+  } else {
+    console.log(years[i]);
+  }
+
+  var cities = ["Lexington", "Louisville", "Frankfort"];
+var cityPops = [308428, 756832, 25527];
+  </script>
+
+</body>
+
+</html>
